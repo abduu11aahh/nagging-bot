@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+import os
 from dotenv import load_dotenv
 from groq_client import client
 
@@ -61,4 +62,7 @@ def get_fortune():
         return jsonify({"error": "Internal server error: " + str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=DEBUG_MODE)
+      # Get the port Render assigns, default to 5000
+    port = int(os.environ.get("PORT", 5000))
+    # Listen on all interfaces so Render can route traffic
+    app.run(host="0.0.0.0", port=port, debug=True)
